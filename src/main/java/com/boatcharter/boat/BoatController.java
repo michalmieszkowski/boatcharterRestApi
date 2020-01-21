@@ -53,6 +53,12 @@ public class BoatController {
         return ResponseEntity.ok(boatService.addNewBoat(boatEntity));
     }
 
+    @PutMapping ("/{boatId}")
+    public ResponseEntity<Boat> editBoat(@PathVariable("boatId") Long boatId, @RequestBody Boat boat) {
+       return ResponseEntity.ok(boatService.updateBoat(boatId, boat));
+    }
+
+
 
 
 
