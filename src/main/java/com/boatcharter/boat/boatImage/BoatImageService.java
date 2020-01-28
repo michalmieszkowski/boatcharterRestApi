@@ -16,6 +16,10 @@ import java.io.InputStream;
 @Service
 public class BoatImageService {
 
+  //  https://panel43.mydevil.net/file_manager/?goto=my-files%2FboatsImages
+
+
+
     private final static String IMAGES_DIR = "C:/boatsImages/";
 
     private BoatRepository boatRepository;
@@ -38,10 +42,22 @@ public class BoatImageService {
     }
 
     public byte[] loadImage(Long boatId) throws IOException {
-        Boat boat = boatRepository.findById(boatId).orElseThrow(() -> new RuntimeException("Boat with id: " + boatId + " not found"));
+        Boat boat = boatRepository.findById(boatId).orElseThrow(() -> new IllegalStateException("Boat with id: " + boatId + " not found"));
         String boatImageFileName = boat.getBoatImageFileName();
         UrlResource externalImagesDir = new UrlResource("file:///C:/boatsImages/" + boatImageFileName);
+        //UrlResource externalImagesDir = new UrlResource("boatsimages/" + boatImageFileName);
         InputStream inputStream = externalImagesDir.getInputStream();
         return StreamUtils.copyToByteArray(inputStream);
+    }
+
+    public void deleteImage(Long boatId) {
+        Boat boat = boatRepository.findById(boatId).orElseThrow(() -> new IllegalStateException("Boat with id: " + boatId + " not found"));
+        String boatImageFileName = boat.getBoatImageFileName();
+        if (!boatImageFileName.equals("no image.jpg")) {
+            File boatImage = new File("C:/boatsImages/" + boatImageFileName);
+            boatImage.delete();
+            System.out.println("file " + boatImageFileName + " deleted");
+        }
+
     }
 }

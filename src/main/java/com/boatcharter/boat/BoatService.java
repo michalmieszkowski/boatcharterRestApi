@@ -24,7 +24,7 @@ public class BoatService {
     }
 
     public Boat findBoatById(Long boatId) {
-        return boatRepository.findById(boatId).orElseThrow(()-> new RuntimeException("Boat with id: " + boatId + " not found"));
+        return boatRepository.findById(boatId).orElseThrow(()-> new IllegalStateException("Boat with id: " + boatId + " not found"));
     }
 
     public List<Boat> findByCategory (String category) {
@@ -57,7 +57,11 @@ public class BoatService {
             }
             boatRepository.save(updateBoat);
         });
-        return boatRepository.findById(boatId).orElseThrow(()-> new RuntimeException("Boat with id: " + boatId + " not found"));
+        return boatRepository.findById(boatId).orElseThrow(()-> new IllegalStateException("Boat with id: " + boatId + " not found"));
+    }
+
+    public void deleteBoat(Long boatId) {
+        boatRepository.deleteById(boatId);
     }
 
 

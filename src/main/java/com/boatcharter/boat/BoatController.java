@@ -58,6 +58,15 @@ public class BoatController {
        return ResponseEntity.ok(boatService.updateBoat(boatId, boat));
     }
 
+    @DeleteMapping ("/{boatId}")
+    public ResponseEntity<?> deleteBoat(@PathVariable("boatId") Long boatId) {
+        boatImageService.deleteImage(boatId);
+        boatService.deleteBoat(boatId);
+        return ResponseEntity.ok().build();
+    }
+
+
+
 
 
 
