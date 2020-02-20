@@ -1,6 +1,6 @@
 package com.boatcharter.boat;
 
-import com.boatcharter.boat.boatImage.BoatImageService;
+import com.boatcharter.boatImage.BoatImageService;
 import com.boatcharter.exception.EntityNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class BoatService {
 
-    private BoatRepository boatRepository;
-    private BoatImageService boatImageService;
+    private final BoatRepository boatRepository;
+    private final BoatImageService boatImageService;
+
+
 
     @Autowired
     public BoatService (BoatRepository boatRepository, BoatImageService boatImageService) {
@@ -64,7 +66,17 @@ public class BoatService {
     }
 
     public void deleteBoat(Long boatId) {
+        boatImageService.deleteImage(boatId);
         boatRepository.deleteById(boatId);
+    }
+
+    public Boat saveBoatImageName (Long boatId, String boatImageName) {
+        boatRepository.findById(boatId).ifPresent(saveBoat -> {
+            if (boatImageName != null) {
+                saveBoat.setBoatImageFileName(boatImageName);
+            }
+        });
+        return boatRepository.findById(boatId).orElseThrow(()-> new EntityNotFound(boatId));
     }
 
 
