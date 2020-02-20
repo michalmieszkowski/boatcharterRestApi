@@ -1,13 +1,16 @@
 package com.boatcharter.boat;
 
 import com.boatcharter.boat.boatImage.BoatImageService;
+import com.boatcharter.exception.EntityNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BoatService {
 
     private BoatRepository boatRepository;
@@ -24,7 +27,7 @@ public class BoatService {
     }
 
     public Boat findBoatById(Long boatId) {
-        return boatRepository.findById(boatId).orElseThrow(()-> new IllegalStateException("Boat with id: " + boatId + " not found"));
+        return boatRepository.findById(boatId).orElseThrow(()-> new EntityNotFound(boatId));
     }
 
     public List<Boat> findByCategory (String category) {
@@ -57,7 +60,7 @@ public class BoatService {
             }
             boatRepository.save(updateBoat);
         });
-        return boatRepository.findById(boatId).orElseThrow(()-> new IllegalStateException("Boat with id: " + boatId + " not found"));
+        return boatRepository.findById(boatId).orElseThrow(()-> new EntityNotFound(boatId));
     }
 
     public void deleteBoat(Long boatId) {
