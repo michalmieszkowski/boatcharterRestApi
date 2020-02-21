@@ -18,10 +18,10 @@ public class ReservationController {
     }
 
 
-    @PostMapping ("/{boatId}")
-    public void addNewReservation (@RequestBody Reservation reservation, @PathVariable ("boatId") Long boatId) {
+    @PostMapping ("/boats/{boatId}/users/{userId}")
+    public Reservation addNewReservation (@RequestBody Reservation reservation, @PathVariable ("boatId") Long boatId, @PathVariable ("userId") Long userId) {
         //return ResponseEntity.ok(reservationService.addNewReservation(reservation, boatId));
-        reservationService.addNewReservation(reservation, boatId);
+         return reservationService.addNewReservation(reservation, boatId, userId);
     }
 
 

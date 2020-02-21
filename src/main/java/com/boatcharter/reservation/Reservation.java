@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,5 +31,8 @@ public class Reservation {
     @Column (name = "end_of_reservation")
 //    @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endOfReservation;
+
+    @Column (name = "amount_to_pay")
+    private BigDecimal amountToPay;
 
 }

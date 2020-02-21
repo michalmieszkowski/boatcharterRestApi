@@ -70,14 +70,7 @@ public class BoatService {
         boatRepository.deleteById(boatId);
     }
 
-    public Boat saveBoatImageName (Long boatId, String boatImageName) {
-        boatRepository.findById(boatId).ifPresent(saveBoat -> {
-            if (boatImageName != null) {
-                saveBoat.setBoatImageFileName(boatImageName);
-            }
-        });
-        return boatRepository.findById(boatId).orElseThrow(()-> new EntityNotFound(boatId));
-    }
+
 
 
 }
