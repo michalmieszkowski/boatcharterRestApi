@@ -26,11 +26,11 @@ public class Reservation {
 
     @Column (name = "begin_of_reservation")
 //    @JsonFormat (shape = JsonFormat.Shape.STRING ,pattern = "yyyy-MM-dd")
-    private Date beginOfReservation;
+    private LocalDate beginOfReservation;
 
     @Column (name = "end_of_reservation")
 //    @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date endOfReservation;
+    private LocalDate endOfReservation;
 
     @Column (name = "amount_to_pay")
     private BigDecimal amountToPay;

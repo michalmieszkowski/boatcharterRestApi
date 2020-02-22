@@ -3,6 +3,7 @@ package com.boatcharter.reservation;
 import com.boatcharter.boat.Boat;
 import com.boatcharter.boat.BoatRepository;
 import com.boatcharter.exception.EntityNotFound;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class AvaibilityCheckIn {
 
     private final BoatRepository boatRepository;
 
+    @Autowired
     public AvaibilityCheckIn(BoatRepository boatRepository) {
         this.boatRepository = boatRepository;
     }
@@ -24,7 +26,7 @@ public class AvaibilityCheckIn {
         Boat boat = boatRepository.findById(boatId).orElseThrow(()-> new EntityNotFound(boatId));
         Set<Reservation> boatReservations= boat.getReservations();
         for (Reservation currentReservation: boatReservations) {
-            if (currentReservation.getEndOfReservation().after(newReservation.getBeginOfReservation()))
+            if (currentReservation.getEndOfReservation().isAfter(newReservation.getBeginOfReservation()))
                 avaibility = false;
         }
         return avaibility;
