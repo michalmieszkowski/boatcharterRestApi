@@ -2,6 +2,7 @@ package com.boatcharter.reservation;
 
 import com.boatcharter.boat.Boat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +20,11 @@ public class ReservationController {
 
 
     @PostMapping ("/boats/{boatId}/users/{userId}")
-    public Reservation addNewReservation (@RequestBody Reservation reservation, @PathVariable ("boatId") Long boatId, @PathVariable ("userId") Long userId) {
-        //return ResponseEntity.ok(reservationService.addNewReservation(reservation, boatId));
-         return reservationService.addNewReservation(reservation, boatId, userId);
+    public ResponseEntity<Object> addNewReservation (@RequestBody Reservation reservation, @PathVariable ("boatId") Long boatId, @PathVariable ("userId") Long userId) {
+        if (reservationService.addNewReservation(reservation,boatId,userId).equals("Not available")) {
+            return new ResponseEntity<>("Boat not available at this time",HttpStatus.CONFLICT);
+        } else
+         return ResponseEntity.ok (reservationService.addNewReservation(reservation, boatId, userId));
     }
 
 

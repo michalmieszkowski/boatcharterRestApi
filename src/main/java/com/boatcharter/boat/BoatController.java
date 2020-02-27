@@ -1,6 +1,7 @@
 package com.boatcharter.boat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +20,31 @@ public class BoatController {
 
     @GetMapping
     public ResponseEntity<List<Boat>> findAllBoats(@RequestParam (required = false) String category){
+        List<Boat> boatList;
         if (category.equals("motorboat")) {
-            return ResponseEntity.ok(boatService.findByCategory("MOTORBOAT"));
+            boatList = boatService.findByCategory("MOTORBOAT");
+            if (boatList.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else
+                return ResponseEntity.ok(boatList);
         } else if (category.equals("yacht")) {
-            return ResponseEntity.ok(boatService.findByCategory("YACHT"));
+            boatList = boatService.findByCategory("YACHT");
+            if (boatList.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else
+                return ResponseEntity.ok(boatList);
         } else if (category.equals("catamaran")) {
-            return ResponseEntity.ok(boatService.findByCategory("CATAMARAN"));
-        }
-        return ResponseEntity.ok(boatService.findAllBoats());
+            boatList = boatService.findByCategory("CATAMARAN");
+            if (boatList.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } else
+                return ResponseEntity.ok(boatList);
+        } else
+        boatList = boatService.findAllBoats();
+        if (boatList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else
+        return ResponseEntity.ok(boatList);
     }
 
     @GetMapping ("/{boatId}")
@@ -34,20 +52,10 @@ public class BoatController {
         return ResponseEntity.ok(boatService.findBoatById(boatId));
     }
 
-
-
-//    @PostMapping (consumes = {"multipart/form-data"})
-//    public ResponseEntity<Boat> addNewBoat1(@RequestParam ("boat") String boat, @RequestParam (value = "image", required = false) MultipartFile image) throws IOException {
-//        Boat boatEntity = new ObjectMapper().readValue(boat, Boat.class);
-//        boatEntity.setBoatImageFileName(boatImageService.uploadImage(image));
-//        return ResponseEntity.ok(boatService.addNewBoat(boatEntity));
-//    }
-
     @PostMapping
     public ResponseEntity<Boat> addNewBoat(@RequestBody Boat boat) {
         return ResponseEntity.ok(boatService.addNewBoat(boat));
     }
-
 
     @PutMapping ("/{boatId}")
     public ResponseEntity<Boat> editBoat(@PathVariable("boatId") Long boatId, @RequestBody Boat boat) {

@@ -25,7 +25,7 @@ public class ReservationService {
         this.amountToPayCalculator = amountToPayCalculator;
     }
 
-    public Reservation addNewReservation (Reservation reservation, Long boatId, Long userId) {
+    public Object addNewReservation (Reservation reservation, Long boatId, Long userId) {
         Boat boat = boatService.findBoatById(boatId);
         Users user = usersService.findUserById(userId);
         if (avaibilityCheckIn.checkAvaibility(reservation, boatId)) {
@@ -37,8 +37,7 @@ public class ReservationService {
             usersService.updateUser(userId, user);
             return reservation;
         } else {
-            return null;
-            //TODO implements user message class , amount calculator class
+            return "Not available";
         }
 
     }

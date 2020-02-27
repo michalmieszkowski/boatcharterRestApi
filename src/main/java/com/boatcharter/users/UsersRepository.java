@@ -9,6 +9,8 @@ import java.util.Optional;
 @Repository
 public interface UsersRepository extends JpaRepository <Users, Long> {
 
+    Users findByLogin (String login);
+
     @Override
     List<Users> findAll();
 
