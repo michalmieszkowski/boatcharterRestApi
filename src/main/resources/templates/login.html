@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Boatcharter demo</title>
+    <link th:href="@{/static/loginstyle.css}" rel="stylesheet" />
+</head>
+<body>
+<div id="container">
+    <h2>Login to Boatcharter</h2>
+    <form th:action="@{/login.html}" method="post">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autofocus="autofocus" />
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" />
+        <input id="submit" type="submit" value="Log in" />
+    </form>
+    <p th:if="${loginError}" class="error">Wrong user or password</p>
+</div>
+
+</body>
+</html>

@@ -51,7 +51,6 @@ public class BoatImageService {
         UrlResource externalImagesDir = new UrlResource(boatImage.toURI());
         InputStream inputStream = externalImagesDir.getInputStream();
         return StreamUtils.copyToByteArray(inputStream);
-
     }
 
     public void deleteImage(Long boatId) {

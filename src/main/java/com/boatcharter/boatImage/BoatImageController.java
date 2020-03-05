@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @RestController
 @RequestMapping ("api/v1/image")
@@ -24,9 +25,10 @@ public class BoatImageController {
         this.boatRepository = boatRepository;
     }
 
-    @GetMapping(value = "/{boatId}", produces = {MediaType.IMAGE_JPEG_VALUE})
-    public ResponseEntity<byte[]> getBoatImage (@PathVariable("boatId") Long boatId) throws IOException {
-        return ResponseEntity.ok(boatImageService.loadImage(boatId));
+    @GetMapping(value = "/{boatId}")
+    public ResponseEntity<String> getBoatImage (@PathVariable("boatId") Long boatId) throws IOException {
+        String responseByte = Base64.getEncoder().encodeToString(boatImageService.loadImage(boatId));
+        return ResponseEntity.ok(responseByte);
     }
 
     @PostMapping("/{boatId}")
